@@ -15,7 +15,7 @@ include(ExternalProject)
 include(CMake/build-from-src.cmake)
 
 # Options
-set(PHOTON_CXX_STANDARD "14" CACHE STRING "C++ standard")
+set(PHOTON_CXX_STANDARD "20" CACHE STRING "C++ standard")
 option(PHOTON_BUILD_TESTING "enable build testing" OFF)
 option(PHOTON_BUILD_WITH_ASAN "build with asan" OFF)
 option(PHOTON_ENABLE_URING "enable io_uring function" OFF)
@@ -59,7 +59,7 @@ if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.0)
     # Hint: -faligned-new is enabled by default after -std=c++17
     list(APPEND global_compile_options -Werror -faligned-new)
 endif ()
-add_compile_options(${global_compile_options})
+# add_compile_options(${global_compile_options})
 
 if (PHOTON_BUILD_WITH_ASAN)
     if ((NOT CMAKE_BUILD_TYPE STREQUAL "Debug") OR (NOT CMAKE_SYSTEM_NAME STREQUAL "Linux"))
@@ -68,13 +68,13 @@ if (PHOTON_BUILD_WITH_ASAN)
     add_link_options(-fsanitize=address -static-libasan)
 endif ()
 
-set(CMAKE_CXX_STANDARD ${PHOTON_CXX_STANDARD})
+# set(CMAKE_CXX_STANDARD ${PHOTON_CXX_STANDARD})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 # CMake didn't provide an abstraction of optimization level for now.
-set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -DNDEBUG -g")
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g -Wno-error -std=c++20")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG -Wno-error -std=c++20")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -DNDEBUG -g -Wno-error -std=c++20")
 set(CMAKE_CXX_FLAGS_MINSIZEREL "-O2")    # Only for CI test
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_BUILD_RPATH_USE_ORIGIN ON)

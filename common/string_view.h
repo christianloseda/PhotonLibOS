@@ -37,30 +37,4 @@ limitations under the License.
 // for C++14 standard, experimental/string_view hase another namespace
 // std::experimental::string_view
 // which requires __cplusplus >= 201402
-
-#ifdef __APPLE__
-    #include <string_view>
-#elif __cplusplus >= 201700L
-    // C++ 17 supported
-    // directly include <string_view>
-    #include <string_view>
-#elif __cplusplus >= 201400L
-    // C++ 14, string_view in experimental
-    #include <experimental/string_view>
-    // wrapeed into std namespace
-    namespace std {
-        using string_view = std::experimental::string_view;
-    }
-#else
-    // legacy c++ standard, still may have newer libc++
-    // temporarly markup as c++14, use experimental lib
-    #pragma push_macro("__cplusplus")
-    #undef __cplusplus
-    #define __cplusplus 201402L
-    #include <experimental/string_view>
-    #pragma pop_macro("__cplusplus")
-    namespace std
-    {
-        using string_view = std::experimental::string_view;
-    }
-#endif
+#include <string_view>
