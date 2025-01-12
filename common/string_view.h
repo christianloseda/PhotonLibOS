@@ -16,6 +16,8 @@ limitations under the License.
 
 #pragma once
 
+#include <string_view>
+
 // a header file to include std::string_view (of C++17) in c++11 mode,
 // in a uniform way, for both gcc and clang
 
@@ -46,11 +48,12 @@ limitations under the License.
     #include <string_view>
 #elif __cplusplus >= 201400L
     // C++ 14, string_view in experimental
-    #include <experimental/string_view>
+    // #include <experimental/string_view>
     // wrapeed into std namespace
-    namespace std {
-        using string_view = std::experimental::string_view;
-    }
+    // namespace std {
+    //    using string_view = std::experimental::string_view;
+    // }
+
 #else
     // legacy c++ standard, still may have newer libc++
     // temporarly markup as c++14, use experimental lib
